@@ -17,10 +17,10 @@ T-shopping商城系统分为三个部分
 后端服务器使用的是springcloud传统的五大件euraka，Hystrix,forgin,zuul,Ribbon以外使用了cors（添加访问白名单，
 令前后端可以交互访问）
 
-日本語
-
 前段vue使用的组件框架是Vuetify
 异步访问的时候使用了anxios技术来代替ajax
+
+日本語
 
 T-shopingショッピングセンターシステムは三つの部分に分けられています。
 バックエンドサービス使うの技術はSpringBoot。
