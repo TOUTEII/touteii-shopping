@@ -1,8 +1,11 @@
 package com.touteii.shopping.upload.service;
 
+import com.github.tobato.fastdfs.domain.StorePath;
+import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +22,9 @@ public class UploadService {
     private static final List<String> CONTENT_TYPES = Arrays.asList("image/gif", "image/jpeg", "image/png");
 
     private static final Logger logger = LoggerFactory.getLogger(UploadService.class);
+
+    @Autowired
+    private FastFileStorageClient fastFileStorageClient;
 
     public String uploadImage(MultipartFile file) {
         String originalFilename = file.getOriginalFilename();
@@ -38,11 +44,14 @@ public class UploadService {
 
 
             //save file sever
-            file.transferTo(new File("C:\\tzw\\image\\" + originalFilename));
+          //  file.transferTo(new File("C:\\tzw\\image\\" + originalFilename));
+           String ext= StringUtils.substringAfterLast(originalFilename,".");
+           StorePath storePath= this.fastFileStorageClient.uploadFile(file.getInputStream(),file.getSize(),ext,null);
 
+           return "http://image.t-shopping.com/" + storePath.getFullPath();
 
             //return url to show
-            return "http://image.t-shopping.com/" + originalFilename;
+           // return "http://image.t-shopping.com/" + originalFilename;
         } catch (IOException e) {
             logger.info("sever error:"+originalFilename);
             e.printStackTrace();
